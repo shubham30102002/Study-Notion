@@ -13,7 +13,7 @@ const OTPSchema = new mongoose.Schema({
     createdAt:{
         type: Date,
         default: Date.now(),
-        expires: 5*60,
+        expires: 5*60,//5min 
     }
 });
 
@@ -25,6 +25,7 @@ async function sendVerficationEmail(email, otp){
 
     }catch(error){
         console.log("Error occured while sending mail");
+        console.error(error);
        throw error;
     }
 } 
