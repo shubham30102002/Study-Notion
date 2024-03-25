@@ -4,7 +4,7 @@ const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const {mailSender} = require("../utils/mailSender");
+const mailSender = require("../utils/mailSender");
 
 
 //sendOTP
@@ -269,7 +269,7 @@ exports.changePassword = async (req, res) => {
             }
         };
         handlePasswordUpdateSuccess(userEmail);
-        
+
         //return response
         return res.status(200).json({
             success: true,
