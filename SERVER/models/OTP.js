@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { mailSender } = require("../utils/mailSender");
+const  mailSender  = require("../utils/mailSender");
 
 const OTPSchema = new mongoose.Schema({
     email:{
@@ -32,7 +32,12 @@ async function sendVerficationEmail(email, otp){
 
 // next is a function that is passed as an argument to the middleware function that is executed before saving data
 OTPSchema.pre("save", async function(next){
-    await sendVerficationEmail(this.email, this.otp);
+    console.log("New document saved to database");
+    
+    // Only send an email when a new document is created
+	if (this.isNew) {
+		await sendVerificationEmail(this.email, this.otp);
+	}
     next();
 })
 

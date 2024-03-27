@@ -8,22 +8,15 @@ exports.updateProfile = async (req, res) => {
         const { dateOfBirth = "", about = "", contactNumber, gender } = req.body;
         //get userID
         const id = req.user.id;
-        //validation
-        if (!contactNumber || !gender) {
-            return res.status(400).json({
-                success: false,
-                message: "All field are required",
-            });
-        }
+       
         //find profile
         const userDetails = await User.findById(id);
-        const profileId = userDetails.additionalDetails;
-        const profileDetails = await Profile.findById(profileId);
+        const profile = await Profile.findById(userDetails.additionalDetails);
         //update profile
-        profileDetails.dateOfBirth = dateOfBirth;
-        profileDetails.about = about;
-        profileDetails.gender = gender;
-        profileDetails.contactNumber = contactNumber;
+        profile.dateOfBirth = dateOfBirth;
+        profile.about = about;
+        profile.gender = gender;
+        profile.contactNumber = contactNumber;
         await profileDetails.save();
 
         //return response
@@ -47,18 +40,23 @@ exports.updateProfile = async (req, res) => {
 //Explore -> how can we schedule this deletion operation
 exports.deleteAccount = async (req, res) => {
     try {
+        //const job = schedule.scheduleJob("10 * * * * *", function () {
+        // 	console.log("The answer to life, the universe, and everything!");
+        // });
+        // console.log(job);
         //get id
         const id = req.user.id;
+        console.log("printing id -> ",id);
         //validation
-        const userDetails = await User.findById(id);
-        if (!userDetails) {
+        const user = await User.findById(id);
+        if (!user) {
             return res.status(404).json({
                 success: false,
                 message: "User not found",
             });
         }
         //delete profile
-        await Profile.findByIdAndDelete({ _id: userDetails.additionalDetails })
+        await Profile.findByIdAndDelete({ _id: user.additionalDetails })
         //TODO: unenroll user from all user courses
         //user delete
         await User.findByIdAndDelete({ _id: id });
@@ -72,7 +70,7 @@ exports.deleteAccount = async (req, res) => {
         console.error(error)
         return res.status(500).json({
             success: false,
-            message: "Cannot delete user account, please try again",
+            message: "User Cannot be deleted successfully",
             error: error.message,
         })
     }
@@ -96,7 +94,7 @@ exports.getAllUserDetails = async (req, res) => {
         console.error(error)
         return res.status(500).json({
             success: false,
-            message: "Cannot delete user account, please try again",
+            message: "User data cannot be fetched successfully",
             error: error.message,
         })
     }

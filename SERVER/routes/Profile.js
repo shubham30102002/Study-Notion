@@ -12,7 +12,7 @@ const {
 const { auth, } = require("../middlewares/auth");
 
 
-router.delete("/deleteAccount", deleteAccount);
+router.delete("/deleteProfile", auth, deleteAccount);
 router.put("/updateProfile", auth, updateProfile);
 router.get("/getUserDetails", auth, getAllUserDetails);
 router.put("/updateDisplayPicture",auth, updateDisplayPicture);

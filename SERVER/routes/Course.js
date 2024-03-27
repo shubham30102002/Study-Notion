@@ -27,16 +27,16 @@ const {auth, isAdmin, isInstructor, isStudent} = require("../middlewares/auth");
 router.post("/createCourse",auth, isInstructor, createCourse);
 router.post("/addSection",auth, isInstructor, createSection);
 router.put("/updateSection",auth, isInstructor, updateSection);
-router.delete("/deleteSection",auth, isInstructor, deleteSection);
+router.post("/deleteSection",auth, isInstructor, deleteSection);
 
 //subsection
 router.post("/addSubSection",auth, isInstructor, createSubSection);
-router.put("/updateSubSection",auth, isInstructor, updateSubSection);
-router.delete("/deleteSubSection",auth, isInstructor, deleteSubSection);
+router.post("/updateSubSection",auth, isInstructor, updateSubSection);
+router.post("/deleteSubSection",auth, isInstructor, deleteSubSection);
 
 //get details
 router.get("/getAllCourses",getAllCourses);
-router.get("/getCourseDetails",getCourseDetails);
+router.post("/getCourseDetails",getCourseDetails);
 
 //cateogry router (can only be created by admin)
 router.post("/createCategory", auth, isAdmin, createCategory);

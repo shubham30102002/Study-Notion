@@ -9,9 +9,9 @@ exports.createSubSection = async (req, res) => {
         //fetch data from req body
         const { sectionId, title, timeDuration, description } = req.body;
         //extract file/video
-        const video = req.files.videoFile;
+        const video = req.files.video;
         //validation
-        if (!sectionId || !title || !timeDuration || !description) {
+        if (!sectionId || !title || !video || !description) {
             return res.status(400).json({
                 success: false,
                 message: "All field are required",
@@ -27,7 +27,7 @@ exports.createSubSection = async (req, res) => {
             videoUrl: uploadDetails.secure_url,
         })
         //update section with this sub section object id
-        const updatedSection = await findByIdAndUpdate({ _id: sectionId },
+        const updatedSection = await Section.findByIdAndUpdate({ _id: sectionId },
             {
                 $push: {
                     subSection: SubSectionDetails._id

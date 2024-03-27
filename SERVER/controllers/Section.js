@@ -10,7 +10,7 @@ exports.createSection = async (req, res) => {
         if (!sectionName || !courseId) {
             return res.status(400).json({
                 success: false,
-                message: "Missing Properties",
+                message: "Missing required Properties",
             })
         }
         //create section
@@ -34,7 +34,12 @@ exports.createSection = async (req, res) => {
         })
 
     } catch (error) {
-        updatedSection
+        // Handle errors
+		res.status(500).json({
+			success: false,
+			message: "Section cannot be created, error occured",
+			error: error.message,
+		});
     }
 }
 
